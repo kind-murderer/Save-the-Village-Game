@@ -1,0 +1,53 @@
+using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Timer
+{
+    private float maxTime;
+    private float currentTime;
+    private Image timerImage;
+    private bool isColorChangeable;
+    Color colorImageStart = new Color(0.3201512f, 1f, 0.1843137f, 1f); //50FF2F
+    Color colorImageMiddle = new Color(1f, 1f, 0.1843137f, 1f); //FFFF2F
+    Color colorImageFinish = new Color(1f, 0.1981609f, 0.1843137f, 1f); //FF332F
+    public event Action TimeIsOut;
+    public bool isRunning {get; set;}
+
+    public Timer(float maxTime, Image timerImage, bool isRunning, bool isColorChangeable = false)
+    {
+        this.maxTime = maxTime;
+        currentTime = 0;
+        this.timerImage = timerImage;
+        this.isColorChangeable = isColorChangeable;
+        this.isRunning = isRunning;
+    }
+
+    public void TimePassed(float deltaTime)
+    {
+        currentTime += deltaTime;
+        ChangeImage(Math.Min(currentTime / maxTime, 1));
+        if (currentTime >= maxTime)
+        {
+            currentTime = 0;
+            ChangeImage(0);
+            isRunning = false;
+            TimeIsOut?.Invoke();
+        }
+    }
+    private void ChangeImage(float fullness)
+    {
+        timerImage.fillAmount = fullness;
+        if (isColorChangeable)
+        {
+            if(fullness < 0.5) //approximately
+            {
+                timerImage.color = Color.LerpUnclamped(colorImageStart, colorImageMiddle, fullness*2);
+            }
+            else
+            {
+                timerImage.color = Color.LerpUnclamped(colorImageMiddle, colorImageFinish, (fullness - 0.5f)*2);
+            }   
+        }
+    }
+}
