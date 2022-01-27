@@ -22,7 +22,6 @@ public class TimersServer : MonoBehaviour
         resourcesServer.MinerWasHired += () => { 
             timers["TimerHireMiner"].isRunning = true;
             timers["TimerFinishMining"].isRunning = true;
-            Debug.Log("Miner was hired");
         };
         resourcesServer.SlayerWasHired += () => { 
             timers["TimerHireSlayer"].isRunning = true;
