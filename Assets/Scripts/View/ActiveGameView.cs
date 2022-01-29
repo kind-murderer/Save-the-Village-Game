@@ -9,6 +9,8 @@ public class ActiveGameView : MonoBehaviour
 
     public Button buttonHireMiner, buttonHireSlayer;
     [SerializeField]
+    Canvas activeGameCanvas;
+    [SerializeField]
     private Image minerImage, slayerImage;
     [SerializeField]
     private Sprite minerNormalSprite, slayerNormalSprite, minerHighlightedSprite, slayerHighlightedSprite;
@@ -27,6 +29,7 @@ public class ActiveGameView : MonoBehaviour
 
     private void Start()
     {
+
         timersServer = gameObject.GetComponent<TimersServer>();
         resourcesServer = gameObject.GetComponent<ResourcesServer>();
         resourcesServer.ResourcesHasChanged += (int gemsAddition, int minersAddition, int slayersAddition) =>
@@ -36,18 +39,7 @@ public class ActiveGameView : MonoBehaviour
             UpdateHireButtons();
         };
         statusScroll = new StatusScroll(scrollText);
-        resourcesServer.SlayersDiscontent += (int numberLeft) =>
-        {
-            if(numberLeft == 0)
-            {
-                statusScroll.CleanMessage();
-            }
-            else
-            {
-                statusScroll.SomeSlayersLeftMessage(numberLeft);
-
-            }
-        };
+        resourcesServer.SlayersDiscontent += ShowSlayersDiscontent;
         timersServer.timers["TimerHireMiner"].TimeIsOut += () => 
         {
             buttonHireMiner.image.fillAmount = 1; 
@@ -58,6 +50,8 @@ public class ActiveGameView : MonoBehaviour
             buttonHireSlayer.image.fillAmount = 1;
             UpdateHireButtons();
         };
+        buttonHireMiner.onClick.AddListener(statusScroll.MinerWasHiredMessage);
+        buttonHireSlayer.onClick.AddListener(statusScroll.SlayerWasHiredMessage);
         ShowResources();
         UpdateHireButtons();
     }
@@ -106,7 +100,7 @@ public class ActiveGameView : MonoBehaviour
         //insert plus character before positive number
         additionText.text = (addition > 0) ? "+" + addition.ToString() : addition.ToString();
         Color c = additionText.color;
-        for (float alpha = 1f; alpha >= 0; alpha -= 0.025f)
+        for (float alpha = 1f; alpha >= 0; alpha -= 0.01f)
         {
             c.a = alpha;
             additionText.color = c;
@@ -115,6 +109,18 @@ public class ActiveGameView : MonoBehaviour
         c.a = 0;
         additionText.color = c;
         isGemsFadeRunning = false;
+    }
+
+    private void ShowSlayersDiscontent(int numberLeft)
+    {
+        if (numberLeft == 0)
+        {
+            statusScroll.CleanMessage();
+        }
+        else
+        {
+            statusScroll.SomeSlayersLeftMessage(numberLeft);
+        }
     }
 
     private void UpdateHireButtons()
@@ -139,5 +145,10 @@ public class ActiveGameView : MonoBehaviour
             buttonHireSlayer.interactable = false;
             slayerImage.sprite = slayerNormalSprite;
         }
+    }
+
+    public void ChangeActiveCanvas(bool setActive)
+    {
+        activeGameCanvas.gameObject.SetActive(setActive);
     }
 }

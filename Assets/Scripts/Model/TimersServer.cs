@@ -56,5 +56,8 @@ public class TimersServer : MonoBehaviour
             }
         }
     }
-
+    public void ContinueBattleTimer()
+    {
+        timers["TimerStartBattle"].isRunning = true;
+    }
 }

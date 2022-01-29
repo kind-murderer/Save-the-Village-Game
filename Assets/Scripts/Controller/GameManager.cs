@@ -3,28 +3,48 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public bool ContinueBattle { get; set; } = true;
+    //private bool isPaused = false;
 
-    private bool isPaused = false;
-    public void PauseGame()
-    {
-        if (!isPaused)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
-        isPaused = !isPaused;
+    public enum GameState
+    { 
+        ActiveGame,
+        Raid, 
+        Defeat, 
+        Victory
     }
-    void Start()
+    public GameState CurrentState { get; private set; } = GameState.ActiveGame;
+    public static GameManager Instance;
+
+    private void Awake()
     {
-        
+        Instance = this;
+    }
+    public void ChangeGameState(GameState newState)
+    {
+        CurrentState = newState;
+        switch (newState)
+        {
+            case GameState.ActiveGame:
+                RunTime();
+                break;
+            case GameState.Raid:
+                PauseTime();
+                break;
+            case GameState.Defeat:
+                PauseTime();
+                break;
+            case GameState.Victory:
+                PauseTime();
+                break;
+        }
     }
 
-    void Update()
+    public void PauseTime()
     {
-        
+        Time.timeScale = 0;
+    }
+    public void RunTime()
+    {
+        Time.timeScale = 1;
     }
 }
