@@ -14,8 +14,6 @@ public class ResourcesServer : MonoBehaviour
     public event Action<int> SlayersDiscontent;
     public bool CanHireMiner { get => CurrentGems >= costOfMiner ? true : false; } //for view
     public bool CanHireSlayer { get => CurrentGems >= costOfDragonSlayer ? true : false; } //for view
-    public bool DoWeHaveMiners { get => NumberOfMiners > 0; } //for timers
-    public bool DoWeHaveSlayers { get => NumberOfSlayers > 0; } //for timmers
     public event Action MinerWasHired; //for timers 
     public event Action SlayerWasHired; //for timers 
     /// <summary>
@@ -97,5 +95,12 @@ public class ResourcesServer : MonoBehaviour
         {
             ResourcesHasChanged(0, 0, -numberOfFallen);
         }
+    }
+
+    public void ResetResources()
+    {
+        CurrentGems = startWithNumberOfGems;
+        NumberOfMiners = 0;
+        NumberOfSlayers = 0;
     }
 }

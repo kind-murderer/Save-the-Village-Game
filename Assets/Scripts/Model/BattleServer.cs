@@ -36,33 +36,46 @@ public class BattleServer : MonoBehaviour
         Day++;
         if (Day >= 3)
         {
-            numberOfDragons = (Day) * enemyMultiplier + rand.Next(-1, 1);
-            fallenSlayers = 0;
-            for (int i = 0; i < numberOfDragons; i++)
+            if (resourcesServer.NumberOfSlayers > 0)
             {
-                fallenSlayers += (rand.Next(0, 2) == 0)? 0: 1; //(50% that slayer will be defeated)
-            }
-            if (fallenSlayers > resourcesServer.NumberOfSlayers)
-            {
-                OnBattleLose?.Invoke();
-            }
-            else
-            {
-                DefeatedDragons += numberOfDragons;
-                //will dragon join us or not (25%)
-                if (rand.Next(0, 4) == 1)
+                numberOfDragons = (Day - 1) * enemyMultiplier + rand.Next(-1, 1);
+                fallenSlayers = 0;
+                for (int i = 0; i < numberOfDragons; i++)
                 {
-                    OnBattleWin?.Invoke(numberOfDragons, fallenSlayers, true);
+                    fallenSlayers += (rand.Next(0, 2) == 0) ? 0 : 1; //(50% that slayer will be defeated)
+                }
+                if (fallenSlayers > resourcesServer.NumberOfSlayers)
+                {
+                    OnBattleLose?.Invoke();
                 }
                 else
                 {
-                    OnBattleWin?.Invoke(numberOfDragons, fallenSlayers, false);
+                    DefeatedDragons += numberOfDragons;
+                    //will dragon join us or not (25%)
+                    if (rand.Next(0, 4) == 1)
+                    {
+                        OnBattleWin?.Invoke(numberOfDragons, fallenSlayers, true);
+                    }
+                    else
+                    {
+                        OnBattleWin?.Invoke(numberOfDragons, fallenSlayers, false);
+                    }
                 }
+            } 
+            else
+            {
+                OnBattleLose?.Invoke();
             }
         }
         else //if it's first or second day
         {
             OnBattleWin?.Invoke(0, 0, false);
         }
+    }
+
+    public void ResetBattles()
+    {
+        Day = 0;
+        DefeatedDragons = 0;
     }
 }

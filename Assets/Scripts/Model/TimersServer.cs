@@ -33,11 +33,11 @@ public class TimersServer : MonoBehaviour
     {
         timers = new Dictionary<string, Timer>()
         {
-            { "TimerStartBattle", new Timer(timeToStartBattle, imageToStartBattle, true, true)},
-            { "TimerHireMiner", new Timer(timeToHireMiner, imageToHireMiner, false)},
-            { "TimerHireSlayer", new Timer(timeToHireSlayer, imageToHireSlayer, false)},
-            { "TimerFinishMining", new Timer(timeToFinishMining, imageToFinishMining, false)},
-            { "TimerPaySalary", new Timer(timeToPaySalary, imageToPaySalary, false)}
+            { "TimerStartBattle", new Timer(timeToStartBattle, imageToStartBattle, 0, false, true)},
+            { "TimerHireMiner", new Timer(timeToHireMiner, imageToHireMiner, 1, false)},
+            { "TimerHireSlayer", new Timer(timeToHireSlayer, imageToHireSlayer, 1, false)},
+            { "TimerFinishMining", new Timer(timeToFinishMining, imageToFinishMining, 0, false)},
+            { "TimerPaySalary", new Timer(timeToPaySalary, imageToPaySalary, 0, false)}
         };
     }
     void Update()
@@ -48,16 +48,23 @@ public class TimersServer : MonoBehaviour
             {
                 timer.Value.TimePassed(Time.deltaTime);
             }
-            else if ((timer.Key == "TimerFinishMining" && resourcesServer.DoWeHaveMiners)
-                || (timer.Key == "TimerPaySalary" && resourcesServer.DoWeHaveSlayers))
+            else if ((timer.Key == "TimerFinishMining" && resourcesServer.NumberOfMiners > 0)
+                || (timer.Key == "TimerPaySalary" && resourcesServer.NumberOfSlayers > 0))
             {
                 timer.Value.isRunning = true;
                 timer.Value.TimePassed(Time.deltaTime);
             }
         }
     }
-    public void ContinueBattleTimer()
+    public void StartBattlingTimer()
     {
         timers["TimerStartBattle"].isRunning = true;
+    }
+    public void ResetTimers()
+    {
+        foreach (KeyValuePair<string, Timer> timer in timers)
+        {
+            timer.Value.Reset();
+        }
     }
 }

@@ -7,6 +7,7 @@ public class Timer
     private float maxTime;
     private float currentTime;
     private Image timerImage;
+    private int defaultImageFillAmount;
     private bool isColorChangeable;
     Color colorImageStart = new Color(0.3201512f, 1f, 0.1843137f, 1f); //50FF2F
     Color colorImageMiddle = new Color(1f, 1f, 0.1843137f, 1f); //FFFF2F
@@ -14,11 +15,12 @@ public class Timer
     public event Action TimeIsOut;
     public bool isRunning {get; set;}
 
-    public Timer(float maxTime, Image timerImage, bool isRunning, bool isColorChangeable = false)
+    public Timer(float maxTime, Image timerImage, int defaultImageFillAmount, bool isRunning, bool isColorChangeable = false)
     {
         this.maxTime = maxTime;
         currentTime = 0;
         this.timerImage = timerImage;
+        this.defaultImageFillAmount = defaultImageFillAmount;
         this.isColorChangeable = isColorChangeable;
         this.isRunning = isRunning;
     }
@@ -30,7 +32,7 @@ public class Timer
         if (currentTime >= maxTime)
         {
             currentTime = 0;
-            ChangeImage(0);
+            ChangeImage(defaultImageFillAmount);
             isRunning = false;
             TimeIsOut?.Invoke();
         }
@@ -49,5 +51,11 @@ public class Timer
                 timerImage.color = Color.LerpUnclamped(colorImageMiddle, colorImageFinish, (fullness - 0.5f)*2);
             }   
         }
+    }
+    public void Reset()
+    {
+        currentTime = 0;
+        isRunning = false;
+        ChangeImage(defaultImageFillAmount);
     }
 }
