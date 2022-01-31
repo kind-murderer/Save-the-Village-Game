@@ -50,7 +50,7 @@ public class BattleResultController : MonoBehaviour
         defeatView.InformOfDefeat(battleServer.Day);
         defeatView.OpenWindow();
         musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Defeat);
-        achievementsServer.CheckDefeatSummary(battleServer.Day, battleServer.LoseWithSingleSlayer);
+        achievementsServer.CheckDefeatSummary(battleServer.Day, battleServer.LoseWithSingleSlayer, battleServer.NoLossInBattle);
     }
     private void HandleGameVictory()
     {

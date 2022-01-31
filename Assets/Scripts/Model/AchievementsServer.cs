@@ -28,9 +28,10 @@ public class AchievementsServer : MonoBehaviour
     {
         if (!haveDragonAchievement)
         {
-            if (numberOfDragonsWeHad >= 5)
+            if (numberOfDragonsWeHad >= 3)
             {
                 AchievementGained?.Invoke(Achievement.DragonsFavourite);
+                haveDragonAchievement = true;
             }
         }
         if (!haveItsPracticeAchievement)
@@ -38,6 +39,7 @@ public class AchievementsServer : MonoBehaviour
             if (noLossInBattle)
             {
                 AchievementGained?.Invoke(Achievement.ItsPractice);
+                haveItsPracticeAchievement = true;
             }
         }
         if (day < lastRecordDays)
@@ -49,13 +51,14 @@ public class AchievementsServer : MonoBehaviour
             newRecord?.Invoke(numberOfMiners, numberOfSlayers, day);
         }
     }
-    public void CheckDefeatSummary(int day, bool loseWithSingleSlayer)
+    public void CheckDefeatSummary(int day, bool loseWithSingleSlayer, bool noLossInBattle)
     {
         if (!haveOneBodyAchievement)
         {
             if (loseWithSingleSlayer)
             {
                 AchievementGained?.Invoke(Achievement.OneBodyIsNobody);
+                loseWithSingleSlayer = true;
             }
         }
         if (!haveQuickDeathAchievement)
@@ -63,6 +66,15 @@ public class AchievementsServer : MonoBehaviour
             if (day == 3)
             {
                 AchievementGained?.Invoke(Achievement.QuickDeath);
+                haveQuickDeathAchievement = true;
+            }
+        }
+        if (!haveItsPracticeAchievement)
+        {
+            if (noLossInBattle)
+            {
+                AchievementGained?.Invoke(Achievement.ItsPractice);
+                haveItsPracticeAchievement = true;
             }
         }
     }

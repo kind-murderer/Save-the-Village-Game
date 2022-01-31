@@ -18,7 +18,7 @@ public class RaidView : MonoBehaviour
         }
         else if (day == 2)
         {
-            resultText.text = " Àfter the working day, miners were met by worried villagers. They said they saw dragons near the village. " +
+            resultText.text = "after the working day, miners were met by worried villagers. They said they saw dragons near the village. " +
                 "It's seems like active mining attracted the attention of the dragons. \nIt was said that dragons just circled around and flew away. " +
                 "But you have a feeling that they will come back.";
         }
