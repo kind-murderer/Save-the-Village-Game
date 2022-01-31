@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class RaidView : MonoBehaviour
@@ -21,7 +18,7 @@ public class RaidView : MonoBehaviour
         }
         else if (day == 2)
         {
-            resultText.text = "Àfter the working day, miners were met by worried villagers. They said they saw dragons near the village. " +
+            resultText.text = " Àfter the working day, miners were met by worried villagers. They said they saw dragons near the village. " +
                 "It's seems like active mining attracted the attention of the dragons. \nIt was said that dragons just circled around and flew away. " +
                 "But you have a feeling that they will come back.";
         }
@@ -31,7 +28,7 @@ public class RaidView : MonoBehaviour
                 "{2} of warriors have fallen down. \n", day, numberOfDragons, numberOfFallen);
             if (didDragonJoinYou)
             {
-                resultText.text += "One dragon have been impressed by the courage of warriors. When the battle ended, " +
+                resultText.text += "One dragon has been impressed by the courage of warriors. When the battle ended, " +
                     "it had offered itself as a defender on your side.";
             }
         }

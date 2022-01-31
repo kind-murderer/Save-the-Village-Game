@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.UI;
+
+// !!!! Edit > ProjectSettings > ScriptExecutionOrder. Make this script RUN BEFORE OTHER custom scripts, but after GameManager. !!!!
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
         Menu,
         Suspended,
         ActiveGame,
-        Victory
     }
     public GameState CurrentState { get; private set; } = GameState.Menu;
     public static GameManager Instance;
@@ -44,9 +43,6 @@ public class GameManager : MonoBehaviour
                 RunTime();
                 break;
             case GameState.Suspended:
-                PauseTime();
-                break;
-            case GameState.Victory:
                 PauseTime();
                 break;
         }

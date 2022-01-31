@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleServer : MonoBehaviour
@@ -16,6 +15,9 @@ public class BattleServer : MonoBehaviour
     //
     public int Day { get; private set; } = 0;
     public int DefeatedDragons { get; private set; } = 0;
+    public int DragonsOnOurSide { get; private set; } = 0;
+    public bool NoLossInBattle { get; private set; } = false;
+    public bool LoseWithSingleSlayer { get; private set; } = false;
     //
     private int numberOfDragons;
     private int fallenSlayers;
@@ -46,15 +48,24 @@ public class BattleServer : MonoBehaviour
                 }
                 if (fallenSlayers > resourcesServer.NumberOfSlayers)
                 {
+                    if(resourcesServer.NumberOfSlayers == 1)
+                    {
+                        LoseWithSingleSlayer = true;
+                    }
                     OnBattleLose?.Invoke();
                 }
                 else
                 {
+                    if (fallenSlayers == 0)
+                    {
+                        NoLossInBattle = true; 
+                    }
                     DefeatedDragons += numberOfDragons;
                     //will dragon join us or not (25%)
                     if (rand.Next(0, 4) == 1)
                     {
                         OnBattleWin?.Invoke(numberOfDragons, fallenSlayers, true);
+                        DragonsOnOurSide++;
                     }
                     else
                     {
@@ -77,5 +88,8 @@ public class BattleServer : MonoBehaviour
     {
         Day = 0;
         DefeatedDragons = 0;
+        DragonsOnOurSide = 0;
+        LoseWithSingleSlayer = false;
+        NoLossInBattle = false;
     }
 }

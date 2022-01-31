@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleResultController : MonoBehaviour
@@ -11,6 +9,7 @@ public class BattleResultController : MonoBehaviour
     ResourcesServer resourcesServer;
     BattleServer battleServer;
     MusicServer musicServer;
+    AchievementsServer achievementsServer;
 
     void Start()
     {
@@ -21,6 +20,7 @@ public class BattleResultController : MonoBehaviour
         raidView = gameObject.GetComponent<RaidView>();
         victoryView = gameObject.GetComponent<VictoryView>();
         defeatView = gameObject.GetComponent<DefeatView>();
+        achievementsServer = gameObject.GetComponent<AchievementsServer>();
 
         resourcesServer.OnTwoThousandGems += HandleGameVictory;
         
@@ -50,14 +50,17 @@ public class BattleResultController : MonoBehaviour
         defeatView.InformOfDefeat(battleServer.Day);
         defeatView.OpenWindow();
         musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Defeat);
+        achievementsServer.CheckDefeatSummary(battleServer.Day, battleServer.LoseWithSingleSlayer);
     }
     private void HandleGameVictory()
     {
-        GameManager.Instance.ChangeGameState(GameManager.GameState.Victory);
+        GameManager.Instance.ChangeGameState(GameManager.GameState.Suspended);
         victoryView.InformOfVictoryAndSummarize(resourcesServer.NumberOfMiners, resourcesServer.NumberOfSlayers,
             battleServer.DefeatedDragons, battleServer.Day);
         victoryView.OpenWindow();
         musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Victory);
+        achievementsServer.CheckVictorySummary(resourcesServer.NumberOfMiners, resourcesServer.NumberOfSlayers,
+            battleServer.DragonsOnOurSide, battleServer.Day, battleServer.NoLossInBattle);
     }
     private void ReturnToMenu()
     {

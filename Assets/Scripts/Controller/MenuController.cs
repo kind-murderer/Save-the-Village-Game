@@ -1,20 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class MenuController : MonoBehaviour
 {
-    MenuView menuView;
-    PauseMenuView pauseMenuView;
-
-    void Start()
+    
+    public void HandleStartButton()
     {
-        menuView = gameObject.GetComponent<MenuView>();
-        pauseMenuView = gameObject.GetComponent<PauseMenuView>();
-        menuView.buttonStartGame.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame, true));
-        pauseMenuView.buttonResume.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame));
-        pauseMenuView.buttonRestart.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame, true));
-        pauseMenuView.buttonToMenu.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.Menu));
+        GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame, true);
+    }
+    public void HandleResumeButton()
+    {
+        GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame);
+    }
+    public void HandleRestartButton()
+    {
+        GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame, true);
+    }
+    public void HandleToMenuButton()
+    {
+        GameManager.Instance.ChangeGameState(GameManager.GameState.Menu);
+    }
+    public void HabdleExitButton()
+    {
+        GameManager.Instance.ExitApplication();
     }
 }
