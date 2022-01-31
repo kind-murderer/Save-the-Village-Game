@@ -21,6 +21,7 @@ public class ResourcesServer : MonoBehaviour
     /// </summary>
     public event Action<int, int, int> ResourcesHasChanged; //for view
     public event Action OnTwoThousandGems;
+
     private void Start()
     {
         CurrentGems = startWithNumberOfGems;

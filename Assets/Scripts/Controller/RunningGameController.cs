@@ -13,17 +13,32 @@ public class RunningGameController : MonoBehaviour
     DefeatView defeatView;
     ResourcesServer resourcesServer;
     BattleServer battleServer;
+    MusicServer musicServer;
 
     private void Start()
     {
+        musicServer = gameObject.GetComponent<MusicServer>();
         timersServer = gameObject.GetComponent<TimersServer>();
         timersServer.InitializeTimersArray();
+        timersServer.timers["TimerFinishMining"].TimeIsOut += () => musicServer.PlaySoundEffect(MusicServer.SoundEffect.GainGems);
+        timersServer.timers["TimerPaySalary"].TimeIsOut += () => musicServer.PlaySoundEffect(MusicServer.SoundEffect.GiveGems);
 
         resourcesServer = gameObject.GetComponent<ResourcesServer>();
         resourcesServer.OnTwoThousandGems += HandleGameVictory;
+
         activeGameView = gameObject.GetComponent<ActiveGameView>();
-        activeGameView.buttonHireMiner.onClick.AddListener(resourcesServer.HireMiner);
-        activeGameView.buttonHireSlayer.onClick.AddListener(resourcesServer.HireSlayer);
+        activeGameView.buttonHireMiner.onClick.AddListener(() =>
+        {
+            resourcesServer.HireMiner();
+            musicServer.PlaySoundEffect(MusicServer.SoundEffect.StoneImpact);
+            
+        });
+        activeGameView.buttonHireSlayer.onClick.AddListener(() =>
+        {
+            resourcesServer.HireSlayer();
+            musicServer.PlaySoundEffect(MusicServer.SoundEffect.DrawingSword);
+        });
+        
         activeGameView.buttonPauseMenu.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.Suspended));
 
         battleServer = gameObject.GetComponent<BattleServer>();
@@ -38,6 +53,7 @@ public class RunningGameController : MonoBehaviour
         defeatView = gameObject.GetComponent<DefeatView>();
         defeatView.buttonToMenu.onClick.AddListener(ReturnToMenu);
         defeatView.buttonRetry.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame, true));
+        
     }
 
     public void StartOverGame()
@@ -69,6 +85,7 @@ public class RunningGameController : MonoBehaviour
         GameManager.Instance.ChangeGameState(GameManager.GameState.Suspended);
         defeatView.InformOfDefeat(battleServer.Day);
         defeatView.OpenWindow();
+        musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Defeat);
     }
     private void HandleGameVictory()
     {
@@ -76,6 +93,7 @@ public class RunningGameController : MonoBehaviour
         victoryView.InformOfVictoryAndSummarize(resourcesServer.NumberOfMiners, resourcesServer.NumberOfSlayers, 
             battleServer.DefeatedDragons, battleServer.Day);
         victoryView.OpenWindow();
+        musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Victory);
     }
     private void ReturnToMenu()
     {

@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour
         pauseMenuView.buttonResume.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame));
         pauseMenuView.buttonRestart.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.ActiveGame, true));
         pauseMenuView.buttonToMenu.onClick.AddListener(() => GameManager.Instance.ChangeGameState(GameManager.GameState.Menu));
+
     }
 
 }

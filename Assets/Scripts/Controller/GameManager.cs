@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     RunningGameController runningGameController;
     MenuController menuController;
-
+    MusicServer musicServer;
     public enum GameState
     { 
         Menu,
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         PauseTime();
         runningGameController = gameObject.GetComponent<RunningGameController>();
         menuController = gameObject.GetComponent<MenuController>();
+        musicServer = gameObject.GetComponent<MusicServer>();
     }
     public void ChangeGameState(GameState newState, bool needRestart = false)
     {
@@ -30,13 +32,14 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Menu:
                 runningGameController.ResetGame();
+                musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Menu);
                 break;
             case GameState.ActiveGame:
                 if (needRestart)
                 {
                     runningGameController.ResetGame();
-                    runningGameController.StartOverGame();
-                    needRestart = !needRestart;
+                    runningGameController.StartOverGame(); 
+                    musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.ActiveGame);
                 }
                 RunTime();
                 break;
