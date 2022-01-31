@@ -65,6 +65,7 @@ public class ActiveGameView : MonoBehaviour
             }
             gemsFadeCoroutine = DisplayAndFade(gemsAdditionText, gemsAddition);
             StartCoroutine(gemsFadeCoroutine);
+            isGemsFadeRunning = true;
         }
         if (minersAddition != 0)
         {
@@ -74,6 +75,7 @@ public class ActiveGameView : MonoBehaviour
             }
             minersFadeCoroutine = DisplayAndFade(minersAdditionText, minersAddition);
             StartCoroutine(minersFadeCoroutine);
+            isMinersFadeRunning = true;
         }
         if (slayersAddition != 0)
         {
@@ -83,6 +85,7 @@ public class ActiveGameView : MonoBehaviour
             }
             slayersFadeCoroutine = DisplayAndFade(slayersAdditionText, slayersAddition);
             StartCoroutine(slayersFadeCoroutine);
+            isSlayersFadeRunning = true;
         }
     }
     IEnumerator DisplayAndFade(Text additionText, int addition)

@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    RunningGameController runningGameController;
-    MenuController menuController;
+    ActiveGameController activeGameController;
     MusicServer musicServer;
     public enum GameState
     { 
@@ -20,9 +19,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        TimersServer timersServer = GetComponent<TimersServer>();
+        timersServer.InitializeTimersArray();
         PauseTime();
-        runningGameController = gameObject.GetComponent<RunningGameController>();
-        menuController = gameObject.GetComponent<MenuController>();
+        activeGameController = gameObject.GetComponent<ActiveGameController>();
         musicServer = gameObject.GetComponent<MusicServer>();
     }
     public void ChangeGameState(GameState newState, bool needRestart = false)
@@ -31,14 +31,14 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Menu:
-                runningGameController.ResetGame();
+                activeGameController.ResetGame();
                 musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.Menu);
                 break;
             case GameState.ActiveGame:
                 if (needRestart)
                 {
-                    runningGameController.ResetGame();
-                    runningGameController.StartOverGame(); 
+                    activeGameController.ResetGame();
+                    activeGameController.StartOverGame(); 
                     musicServer.ChangeBackgroundSound(MusicServer.SoundBackground.ActiveGame);
                 }
                 RunTime();
@@ -59,5 +59,9 @@ public class GameManager : MonoBehaviour
     public void RunTime()
     {
         Time.timeScale = 1;
+    }
+    public void ExitApplication()
+    {
+        Application.Quit();
     }
 }
