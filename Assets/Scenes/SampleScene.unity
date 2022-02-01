@@ -9692,7 +9692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7598917026338372700, guid: 45c7451cf001cae4ebf00e611855ecd8, type: 3}
       propertyPath: m_Text
-      value: Get 5 or more dragons on your side in one run
+      value: Get 3 or more dragons on your side in one run
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45c7451cf001cae4ebf00e611855ecd8, type: 3}
