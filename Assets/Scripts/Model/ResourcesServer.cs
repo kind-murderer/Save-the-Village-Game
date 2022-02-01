@@ -14,21 +14,29 @@ public class ResourcesServer : MonoBehaviour
     public event Action<int> SlayersDiscontent;
     public bool CanHireMiner { get => CurrentGems >= costOfMiner ? true : false; } //for view
     public bool CanHireSlayer { get => CurrentGems >= costOfDragonSlayer ? true : false; } //for view
-    public bool DoWeHaveMiners { get => NumberOfMiners > 0; } //for timers
-    public bool DoWeHaveSlayers { get => NumberOfSlayers > 0; } //for timmers
     public event Action MinerWasHired; //for timers 
     public event Action SlayerWasHired; //for timers 
-    public event Action ResourcesHasChanged; //for view
+    /// <summary>
+    /// int gemsAddition, int minersAddition, int slayersAddition
+    /// </summary>
+    public event Action<int, int, int> ResourcesHasChanged; //for view
+    public event Action OnTwoThousandGems;
+
     private void Start()
     {
         CurrentGems = startWithNumberOfGems;
         TimersServer timersManager = gameObject.GetComponent<TimersServer>();
         timersManager.timers["TimerPaySalary"].TimeIsOut += PaySalary;
         timersManager.timers["TimerFinishMining"].TimeIsOut += AddProducedGems;
+        BattleServer battleServer = gameObject.GetComponent<BattleServer>();
+        battleServer.OnBattleWin += ChangeAfterBattle;
     }
 
     private void PaySalary()
     {
+        int previousGems = CurrentGems;
+        int previousSlayers = NumberOfSlayers;
+
         int remains = CurrentGems - salaryOfSlayer * NumberOfSlayers;
         if(remains >= 0)
         {
@@ -42,13 +50,17 @@ public class ResourcesServer : MonoBehaviour
             SlayersDiscontent?.Invoke(NumberOfSlayers - numberOfSlayersYouCanAffort);
             NumberOfSlayers = numberOfSlayersYouCanAffort;
         }
-        ResourcesHasChanged?.Invoke();
+        ResourcesHasChanged?.Invoke(CurrentGems - previousGems, 0, NumberOfSlayers - previousSlayers);
     }
 
     private void AddProducedGems()
     {
         CurrentGems += quantityOfProducedGems * NumberOfMiners;
-        ResourcesHasChanged?.Invoke();
+        ResourcesHasChanged?.Invoke(quantityOfProducedGems * NumberOfMiners, 0, 0);
+        if (CurrentGems >= 2000)
+        {
+            OnTwoThousandGems?.Invoke();
+        }
     }
 
     public void HireMiner()
@@ -58,7 +70,7 @@ public class ResourcesServer : MonoBehaviour
             CurrentGems -= costOfMiner;
             NumberOfMiners++;
             MinerWasHired?.Invoke();
-            ResourcesHasChanged?.Invoke();
+            ResourcesHasChanged?.Invoke(-costOfMiner, 1, 0);
         }
     }
     public void HireSlayer()
@@ -68,7 +80,28 @@ public class ResourcesServer : MonoBehaviour
             CurrentGems -= costOfDragonSlayer;
             NumberOfSlayers++;
             SlayerWasHired?.Invoke();
-            ResourcesHasChanged?.Invoke();
+            ResourcesHasChanged?.Invoke(-costOfDragonSlayer, 0, 1);
         } 
+    }
+
+    public void ChangeAfterBattle(int numberOfDragons, int numberOfFallen, bool didDragonJoinYou)
+    {
+        NumberOfSlayers -= numberOfFallen;
+        if (didDragonJoinYou)
+        {
+            NumberOfSlayers++;
+            ResourcesHasChanged(0, 0, -numberOfFallen + 1);
+        }
+        else
+        {
+            ResourcesHasChanged(0, 0, -numberOfFallen);
+        }
+    }
+
+    public void ResetResources()
+    {
+        CurrentGems = startWithNumberOfGems;
+        NumberOfMiners = 0;
+        NumberOfSlayers = 0;
     }
 }
