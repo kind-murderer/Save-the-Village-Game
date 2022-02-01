@@ -4,10 +4,11 @@ using UnityEngine.UI;
 public class RaidView : MonoBehaviour
 {
     public Button continueButton;
+
     [SerializeField]
-    Canvas raidCanvas;
+    private Canvas raidCanvas;
     [SerializeField]
-    Text resultText;
+    private Text resultText;
 
     public void InformOfBattleResult(int day, int numberOfDragons, int numberOfFallen, bool didDragonJoinYou)
     {

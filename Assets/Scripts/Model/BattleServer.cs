@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class BattleServer : MonoBehaviour
 {
+    [SerializeField]
+    private int enemyMultiplier;
     private TimersServer timersServer;
     private ResourcesServer resourcesServer;
+    private int numberOfDragons;
+    private int fallenSlayers;
+    private System.Random rand = new System.Random();
 
     /// <summary>
     /// int numberOfDragons, int numberOfFallen, bool didDragonJoinYou
@@ -12,25 +17,17 @@ public class BattleServer : MonoBehaviour
     public event Action<int, int, bool> OnBattleWin;
     public event Action OnBattleLose;
 
-    //
     public int Day { get; private set; } = 0;
     public int DefeatedDragons { get; private set; } = 0;
     public int DragonsOnOurSide { get; private set; } = 0;
     public bool NoLossInBattle { get; private set; } = false;
     public bool LoseWithSingleSlayer { get; private set; } = false;
-    //
-    private int numberOfDragons;
-    private int fallenSlayers;
-    [SerializeField]
-    private int enemyMultiplier;
-
-    System.Random rand = new System.Random();
 
     private void Start()
     {
         timersServer = gameObject.GetComponent<TimersServer>();
         resourcesServer = gameObject.GetComponent<ResourcesServer>();
-        timersServer.timers["TimerStartBattle"].TimeIsOut += ResultOfBattle;
+        timersServer.Timers["TimerStartBattle"].TimeIsOut += ResultOfBattle;
     }
 
     private void ResultOfBattle()

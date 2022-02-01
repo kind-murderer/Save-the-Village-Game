@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class AchievementsServer : MonoBehaviour
 {
+    public enum Achievement
+    {
+        DragonsFavourite,
+        OneBodyIsNobody,
+        ItsPractice,
+        QuickDeath
+    }
 
-    public event Action<Achievement> AchievementGained;
-    /// <summary>
-    /// miners, slayers, day
-    /// </summary>
-    public event Action<int, int, int> newRecord;
-    private int lastRecordDays = 9999; //days
-    private int lastRecordMiners = 0; //miners
-    private int lastRecordSlayers = 0; //slayers
+    private int lastRecordDays = 9999;
+    private int lastRecordMiners = 0; 
+    private int lastRecordSlayers = 0;
     private bool haveDragonAchievement = false;
     private bool haveOneBodyAchievement = false;
     private bool haveItsPracticeAchievement = false;
     private bool haveQuickDeathAchievement = false;
-    public enum Achievement 
-    {
-        DragonsFavourite, 
-        OneBodyIsNobody, 
-        ItsPractice, 
-        QuickDeath
-    }
 
+    /// <summary>
+    /// miners, slayers, day
+    /// </summary>
+    public event Action<int, int, int> NewRecord;
+    public event Action<Achievement> AchievementGained;
     public void CheckVictorySummary(int numberOfMiners, int numberOfSlayers, int numberOfDragonsWeHad, int day, bool noLossInBattle)
     {
         if (!haveDragonAchievement)
@@ -44,11 +44,11 @@ public class AchievementsServer : MonoBehaviour
         }
         if (day < lastRecordDays)
         {
-            newRecord?.Invoke(numberOfMiners, numberOfSlayers, day);
+            NewRecord?.Invoke(numberOfMiners, numberOfSlayers, day);
         }
         else if (day == lastRecordDays && numberOfMiners >= lastRecordMiners && numberOfSlayers >= lastRecordSlayers)
         {
-            newRecord?.Invoke(numberOfMiners, numberOfSlayers, day);
+            NewRecord?.Invoke(numberOfMiners, numberOfSlayers, day);
         }
     }
     public void CheckDefeatSummary(int day, bool loseWithSingleSlayer, bool noLossInBattle)

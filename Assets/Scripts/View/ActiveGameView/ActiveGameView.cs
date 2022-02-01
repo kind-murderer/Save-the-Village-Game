@@ -7,20 +7,18 @@ public class ActiveGameView : MonoBehaviour
     // !!!! Edit > ProjectSettings > ScriptExecutionOrder. Make this script RUN AFTER all other custom scripts. !!!!
 
     public Button buttonHireMiner, buttonHireSlayer, buttonPauseMenu;
+
     [SerializeField]
-    Canvas activeGameCanvas;
+    private Canvas activeGameCanvas;
     [SerializeField]
     private Image minerImage, slayerImage;
     [SerializeField]
     private Sprite minerNormalSprite, slayerNormalSprite, minerHighlightedSprite, slayerHighlightedSprite;
     [SerializeField]
-    private Text numberOfMinersText, numberOfSlayersText, numberOfGemsText, scrollText, 
-        gemsAdditionText, minersAdditionText, slayersAdditionText;
-    StatusScroll statusScroll;
-
+    private Text numberOfMinersText, numberOfSlayersText, numberOfGemsText, scrollText, gemsAdditionText, minersAdditionText, slayersAdditionText;
+    private StatusScroll statusScroll;
     private ResourcesServer resourcesServer;
     private TimersServer timersServer;
-
     private IEnumerator gemsFadeCoroutine, minersFadeCoroutine, slayersFadeCoroutine;
     private bool isGemsFadeRunning = false;
     private bool isMinersFadeRunning = false;
@@ -38,8 +36,8 @@ public class ActiveGameView : MonoBehaviour
         };
         statusScroll = new StatusScroll(scrollText);
         resourcesServer.SlayersDiscontent += ShowSlayersDiscontent;
-        timersServer.timers["TimerHireMiner"].TimeIsOut += UpdateHireButtons;
-        timersServer.timers["TimerHireSlayer"].TimeIsOut += UpdateHireButtons;
+        timersServer.Timers["TimerHireMiner"].TimeIsOut += UpdateHireButtons;
+        timersServer.Timers["TimerHireSlayer"].TimeIsOut += UpdateHireButtons;
         buttonHireMiner.onClick.AddListener(statusScroll.MinerWasHiredMessage);
         buttonHireSlayer.onClick.AddListener(statusScroll.SlayerWasHiredMessage);
         UpdateResourcesAndButtons();
@@ -115,7 +113,7 @@ public class ActiveGameView : MonoBehaviour
 
     private void UpdateHireButtons()
     {
-        if (!timersServer.timers["TimerHireMiner"].isRunning && resourcesServer.CanHireMiner)
+        if (!timersServer.Timers["TimerHireMiner"].IsRunning && resourcesServer.CanHireMiner)
         {
             buttonHireMiner.interactable = true;
             minerImage.sprite = minerHighlightedSprite;
@@ -125,7 +123,7 @@ public class ActiveGameView : MonoBehaviour
             buttonHireMiner.interactable = false;
             minerImage.sprite = minerNormalSprite;
         }
-        if (!timersServer.timers["TimerHireSlayer"].isRunning && resourcesServer.CanHireSlayer)
+        if (!timersServer.Timers["TimerHireSlayer"].IsRunning && resourcesServer.CanHireSlayer)
         {
             buttonHireSlayer.interactable = true;
             slayerImage.sprite = slayerHighlightedSprite;

@@ -7,30 +7,30 @@ public class TimersServer : MonoBehaviour
     /// <summary>
     /// Container for Timers with keys "TimerStartBattle", "TimerHireMiner", "TimerHireSlayer", "TimerFinishMining", "TimerPaySalary"
     /// </summary>
-    public Dictionary<string, Timer> timers;
+    public Dictionary<string, Timer> Timers;
+
     [SerializeField]
     private int timeToStartBattle, timeToHireMiner, timeToHireSlayer, timeToFinishMining, timeToPaySalary;
     [SerializeField]
     private Image imageToStartBattle, imageToHireMiner, imageToHireSlayer, imageToFinishMining, imageToPaySalary;
+    private ResourcesServer resourcesServer;
 
-    ResourcesServer resourcesServer;
-
-    void Start()
+    private void Start()
     {
         resourcesServer = gameObject.GetComponent<ResourcesServer>();
         resourcesServer.MinerWasHired += () => { 
-            timers["TimerHireMiner"].isRunning = true;
-            timers["TimerFinishMining"].isRunning = true;
+            Timers["TimerHireMiner"].IsRunning = true;
+            Timers["TimerFinishMining"].IsRunning = true;
         };
         resourcesServer.SlayerWasHired += () => { 
-            timers["TimerHireSlayer"].isRunning = true;
-            timers["TimerPaySalary"].isRunning = true;
+            Timers["TimerHireSlayer"].IsRunning = true;
+            Timers["TimerPaySalary"].IsRunning = true;
         };
     }
 
     public void InitializeTimersArray()
     {
-        timers = new Dictionary<string, Timer>()
+        Timers = new Dictionary<string, Timer>()
         {
             { "TimerStartBattle", new Timer(timeToStartBattle, imageToStartBattle, 0, false, true)},
             { "TimerHireMiner", new Timer(timeToHireMiner, imageToHireMiner, 1, false)},
@@ -39,29 +39,29 @@ public class TimersServer : MonoBehaviour
             { "TimerPaySalary", new Timer(timeToPaySalary, imageToPaySalary, 0, false)}
         };
     }
-    void Update()
+    private void Update()
     {
-        foreach(KeyValuePair<string, Timer> timer in timers)
+        foreach(KeyValuePair<string, Timer> timer in Timers)
         {
-            if (timer.Value.isRunning)
+            if (timer.Value.IsRunning)
             {
                 timer.Value.TimePassed(Time.deltaTime);
             }
             else if ((timer.Key == "TimerFinishMining" && resourcesServer.NumberOfMiners > 0)
                 || (timer.Key == "TimerPaySalary" && resourcesServer.NumberOfSlayers > 0))
             {
-                timer.Value.isRunning = true;
+                timer.Value.IsRunning = true;
                 timer.Value.TimePassed(Time.deltaTime);
             }
         }
     }
     public void StartBattlingTimer()
     {
-        timers["TimerStartBattle"].isRunning = true;
+        Timers["TimerStartBattle"].IsRunning = true;
     }
     public void ResetTimers()
     {
-        foreach (KeyValuePair<string, Timer> timer in timers)
+        foreach (KeyValuePair<string, Timer> timer in Timers)
         {
             timer.Value.Reset();
         }
