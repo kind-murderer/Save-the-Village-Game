@@ -2,7 +2,7 @@
 ![JRzJ5I3qmg4](https://user-images.githubusercontent.com/56206017/151958835-621793c6-9776-4c16-829f-bc5163a474a0.jpg)
 
 ### “Save  the  village”  is a MVC  game  made with  Unity.  The  player's  task  is  to manage resources to support the mining process and resist the oncoming dragons.
-
+#### Executable file and unitypackage are stored in the parallel branch 
 GUI assets: Free Fantasy GUI (https://www.gameart2d.com/free-fantasy-game-gui.html), Fantasy Wooden GUI asset, Troll Nest Free UI Buttons, baground: mountain landscape view by foxarthappy on vecteezy , 
 
 Font: Glue Gun,
