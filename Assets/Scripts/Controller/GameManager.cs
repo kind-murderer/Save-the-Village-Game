@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    ActiveGameController activeGameController;
-    MusicServer musicServer;
     public enum GameState
-    { 
+    {
         Menu,
         Suspended,
         ActiveGame,
     }
-    public GameState CurrentState { get; private set; } = GameState.Menu;
+
     public static GameManager Instance;
 
+    private ActiveGameController activeGameController;
+    private MusicServer musicServer;
+    public GameState CurrentState { get; private set; } = GameState.Menu;
     private void Awake()
     {
         Instance = this;

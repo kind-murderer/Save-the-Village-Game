@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class BattleResultController : MonoBehaviour
 {
-    TimersServer timersServer;
-    RaidView raidView;
-    VictoryView victoryView;
-    DefeatView defeatView;
-    ResourcesServer resourcesServer;
-    BattleServer battleServer;
-    MusicServer musicServer;
-    AchievementsServer achievementsServer;
+    private TimersServer timersServer;
+    private RaidView raidView;
+    private VictoryView victoryView;
+    private DefeatView defeatView;
+    private ResourcesServer resourcesServer;
+    private BattleServer battleServer;
+    private MusicServer musicServer;
+    private AchievementsServer achievementsServer;
 
-    void Start()
+    private void Start()
     {
         musicServer = gameObject.GetComponent<MusicServer>();
         timersServer = gameObject.GetComponent<TimersServer>();

@@ -9,11 +9,12 @@ public class Timer
     private Image timerImage;
     private int defaultImageFillAmount;
     private bool isColorChangeable;
-    Color colorImageStart = new Color(0.3201512f, 1f, 0.1843137f, 1f); //50FF2F
-    Color colorImageMiddle = new Color(1f, 1f, 0.1843137f, 1f); //FFFF2F
-    Color colorImageFinish = new Color(1f, 0.1981609f, 0.1843137f, 1f); //FF332F
+    private Color colorImageStart = new Color(0.3201512f, 1f, 0.1843137f, 1f); //50FF2F
+    private Color colorImageMiddle = new Color(1f, 1f, 0.1843137f, 1f); //FFFF2F
+    private Color colorImageFinish = new Color(1f, 0.1981609f, 0.1843137f, 1f); //FF332F
+
     public event Action TimeIsOut;
-    public bool isRunning {get; set;}
+    public bool IsRunning {get; set;}
 
     public Timer(float maxTime, Image timerImage, int defaultImageFillAmount, bool isRunning, bool isColorChangeable = false)
     {
@@ -22,7 +23,7 @@ public class Timer
         this.timerImage = timerImage;
         this.defaultImageFillAmount = defaultImageFillAmount;
         this.isColorChangeable = isColorChangeable;
-        this.isRunning = isRunning;
+        this.IsRunning = isRunning;
     }
 
     public void TimePassed(float deltaTime)
@@ -33,7 +34,7 @@ public class Timer
         {
             currentTime = 0;
             ChangeImage(defaultImageFillAmount);
-            isRunning = false;
+            IsRunning = false;
             TimeIsOut?.Invoke();
         }
     }
@@ -55,7 +56,7 @@ public class Timer
     public void Reset()
     {
         currentTime = 0;
-        isRunning = false;
+        IsRunning = false;
         ChangeImage(defaultImageFillAmount);
     }
 }

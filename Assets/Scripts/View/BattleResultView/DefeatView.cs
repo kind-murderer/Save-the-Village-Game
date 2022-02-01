@@ -3,11 +3,12 @@ using UnityEngine.UI;
 
 public class DefeatView : MonoBehaviour
 {
-    [SerializeField]
-    Canvas defeatCanvas;
-    [SerializeField]
-    Text defeatText;
     public Button buttonToMenu, buttonRetry;
+
+    [SerializeField]
+    private Canvas defeatCanvas;
+    [SerializeField]
+    private Text defeatText;
 
     public void InformOfDefeat(int day)
     {
