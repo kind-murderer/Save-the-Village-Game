@@ -13,7 +13,7 @@ public class AchievementsView : MonoBehaviour
     private void Start()
     {
         AchievementsServer achievementsServer = gameObject.GetComponent<AchievementsServer>();
-        achievementsServer.newRecord += UpdateRecord;
+        achievementsServer.NewRecord += UpdateRecord;
         achievementsServer.AchievementGained += SetStar;
     }
     public void SetStar(AchievementsServer.Achievement achievement)
@@ -34,7 +34,7 @@ public class AchievementsView : MonoBehaviour
                 break;
         }
     }
-        public void UpdateRecord(int miners, int slayers, int day)
+    public void UpdateRecord(int miners, int slayers, int day)
     {
         recordText.text = string.Format("You won on the {0} day with {1} miners and {2} dragon slayers left", day, miners, slayers);
     }

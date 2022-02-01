@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ActiveGameController : MonoBehaviour
 {
-    TimersServer timersServer;
-    ActiveGameView activeGameView;
-    ResourcesServer resourcesServer;
-    BattleServer battleServer;
-    MusicServer musicServer;
+    private TimersServer timersServer;
+    private ActiveGameView activeGameView;
+    private ResourcesServer resourcesServer;
+    private BattleServer battleServer;
+    private MusicServer musicServer;
 
     private void Start()
     {
@@ -16,8 +16,8 @@ public class ActiveGameController : MonoBehaviour
         resourcesServer = gameObject.GetComponent<ResourcesServer>();
         activeGameView = gameObject.GetComponent<ActiveGameView>();
 
-        timersServer.timers["TimerFinishMining"].TimeIsOut += () => musicServer.PlaySoundEffect(MusicServer.SoundEffect.GainGems);
-        timersServer.timers["TimerPaySalary"].TimeIsOut += () => musicServer.PlaySoundEffect(MusicServer.SoundEffect.GiveGems);
+        timersServer.Timers["TimerFinishMining"].TimeIsOut += () => musicServer.PlaySoundEffect(MusicServer.SoundEffect.GainGems);
+        timersServer.Timers["TimerPaySalary"].TimeIsOut += () => musicServer.PlaySoundEffect(MusicServer.SoundEffect.GiveGems);
 
         activeGameView.buttonHireMiner.onClick.AddListener(() =>
         {

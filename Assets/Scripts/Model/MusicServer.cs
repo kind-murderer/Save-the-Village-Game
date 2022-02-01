@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class MusicServer : MonoBehaviour
 {
-    [SerializeField] 
-    private AudioClip menuSound, activeGameSound, victorySound, defeatSound, 
-        clickSound, swordSound, stoneSound, gainGemsSound, giveGemsSound;
-    private AudioSource audioSource;
-    
     public enum SoundEffect 
     {
         DrawingSword, 
@@ -22,7 +17,10 @@ public class MusicServer : MonoBehaviour
         Defeat
     }
 
-    void Start()
+    [SerializeField]
+    private AudioClip menuSound, activeGameSound, victorySound, defeatSound, clickSound, swordSound, stoneSound, gainGemsSound, giveGemsSound;
+    private AudioSource audioSource;
+    private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.clip = menuSound;

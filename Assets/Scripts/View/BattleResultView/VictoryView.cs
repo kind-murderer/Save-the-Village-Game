@@ -3,11 +3,12 @@ using UnityEngine.UI;
 
 public class VictoryView : MonoBehaviour
 {
+    public Button buttonToMenu; 
+
     [SerializeField]
-    Canvas victoryCanvas;
+    private Canvas victoryCanvas;
     [SerializeField]
-    Text victoryText;
-    public Button buttonToMenu;
+    private Text victoryText;
 
     public void InformOfVictoryAndSummarize(int numberOfMiners, int numberOfSlayers, int defeatedDragons, int day)
     {
